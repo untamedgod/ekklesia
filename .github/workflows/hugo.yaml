@@ -45,7 +45,7 @@ jobs:
         with: { fetch-depth: 0 }
 
         #
-        # git clone --fetch-depth 0 https://github.com/untamedgod/ekklesia.git
+        # git clone --depth 1 https://github.com/untamedgod/ekklesia.git
         #
 
       - name: Setup Pages
