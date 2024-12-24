@@ -9,6 +9,7 @@ _extract_sermon() {
   echo "${pdf_file} pg ${sermon_pages}"
 }
 
+
 accum=''
 
 while read line; do
@@ -52,6 +53,26 @@ for i in $(echo "${accum}" | tr ' ' '\n'); do
   compl_set=''
 
   # complement set of page numbers
+  for j in $(seq 1 ${sermon_page_begin}); do
+    if [[ -z $(echo -n "${j} ${index_set}" | tr ' ' '\n' | sort -n | uniq -d) ]]; then
+      compl_set="${compl_set}${compl_set:+ }${j}"
+    fi
+  done
+
+  echo
+  echo
+  echo
+  echo "${index_set}"
+  echo
+  echo "${compl_set}"
+  echo
+
+
+  break
+
+  compl_set=''
+
+  # complement set of page numbers
   echo -n "extract_image() ${i}.pdf pg 1"
   for j in $(seq 2 ${sermon_page_begin}); do
     if [[ -z $(echo -n "${j} ${index_set}" | tr ' ' '\n' | sort -n | uniq -d) ]]; then
@@ -63,13 +84,7 @@ for i in $(echo "${accum}" | tr ' ' '\n'); do
       _extract_sermon "${i}.pdf" "${j}" "xxyyzz"
     fi
   done
-  echo
-  echo
-  echo
-  echo "${index_set}"
-  echo
-  echo "${compl_set}"
-  echo
+
 
 done
 
