@@ -37,13 +37,13 @@ _enumerate_indices() {
   for namespace in $(echo "$NAMESPACE_CATALOG" | tr ' ' '\n'); do
     echo "${namespace}"
 
-    index_set=''
+    index_set='1'
 
     # index pages from pdf
     while read line; do
       #echo "${line}"
       read -r sermon_page_begin  <<< $(echo "${line}" | grep -oE '#page=[0-9]+' | grep -oE '[0-9]+')
-      read -r sermon_title       <<< $(echo "${line}" | grep -oE '.*>.*</a>' )
+      #read -r sermon_title       <<< $(echo "${line}" | grep -oE '.*>.*</a>' )
       index_set="${index_set}${index_set:+ }${sermon_page_begin}"
     done <<-__EOT__
 	  $( \
@@ -55,10 +55,10 @@ _enumerate_indices() {
 	  )
 		__EOT__
 
-    compl_set=''
+    compl_set='1'
 
     # complement set of page numbers
-    for j in $(seq 1 ${sermon_page_begin}); do
+    for j in $(seq 2 ${sermon_page_begin}); do
       if [[ -z $(echo -n "${j} ${index_set}" | tr ' ' '\n' | sort -n | uniq -d) ]]; then
         compl_set="${compl_set}${compl_set:+ }${j}"
       fi
