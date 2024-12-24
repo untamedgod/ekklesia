@@ -22,7 +22,7 @@ echo
 
 for i in $(echo "${accum}" | tr ' ' '\n'); do
   echo "${i}"
-  continue
+  #continue
   cat ./Dads_Sermons_Alphabetical_Rev3.html \
     | grep 'href="Dads_Sermons' | sed 's@.*<A href="@@' \
     | sort \
