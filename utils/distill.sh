@@ -91,11 +91,6 @@ _enumerate_indices() {
 #    fi
 #  done
 
-
-
-
-
-
 _catalog_namespaces
 _enumerate_indices
 
