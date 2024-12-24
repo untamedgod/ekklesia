@@ -37,7 +37,7 @@ _enumerate_indices() {
   for namespace in $(echo "$NAMESPACE_CATALOG" | tr ' ' '\n'); do
     echo "${namespace}"
 
-    index_set='1'
+    index_set=''
 
     # index pages from pdf
     while read line; do
@@ -55,7 +55,7 @@ _enumerate_indices() {
 	  )
 		__EOT__
 
-    compl_set='1'
+    compl_set=''
 
     # complement set of page numbers
     for j in $(seq 2 ${sermon_page_begin}); do
