@@ -9,28 +9,35 @@ _extract_sermon() {
   echo "${pdf_file} pg ${sermon_pages}"
 }
 
+_catalog_namespaces() {
 
-accum=''
+  local accum=''
 
-while read line; do
-  pdf="${line%%.pdf#page=*}"
-  conj="${accum}${accum:+ }${pdf}"
-  if [[ $(echo -n "${conj}" | tr ' ' '\n' | uniq -d) ]]; then
-    true
-  else
-    accum="${conj}"
-  fi
-done <<__EOT__
-$( cat ./Dads_Sermons_Alphabetical_Rev3.html | grep 'href="Dads_Sermons' | sed 's@.*<A href="@@' | sort )
-__EOT__
+  while read line; do
+    namespace="${line%%.pdf#page=*}"
+    selection="${accum}${accum:+ }${namespace}"
+    if [[ $(echo -n "${selection}" | tr ' ' '\n' | uniq -d) ]]; then
+      true
+    else
+      accum="${selection}"
+    fi
+  done <<-__EOT__
+	$( cat ./Dads_Sermons_Alphabetical_Rev3.html \
+	    | grep 'href="Dads_Sermons' \
+	    | sed 's@.*<A href="@@' \
+	    | sort \
+	)
+	__EOT__
 
-echo
-echo
+  NAMESPACE_CATALOG="${accum}"
+}
+
+_catalog_namespaces
 
 # <A href="Dads_Sermons_Warren2_i.pdf#page=10" target="contents" >Acts 10:38</a><br>
 
-for i in $(echo "${accum}" | tr ' ' '\n'); do
-  echo "${i}"
+for namespace in $(echo "$NAMESPACE_CATALOG" | tr ' ' '\n'); do
+  echo "${namespace}"
 
   index_set=''
 
@@ -45,7 +52,7 @@ for i in $(echo "${accum}" | tr ' ' '\n'); do
 	  cat ./Dads_Sermons_Alphabetical_Rev3.html \
 	  | grep 'href="Dads_Sermons' | sed 's@.*<A href="@@' \
 	  | sort \
-	  | grep "${i}" \
+	  | grep "${namespace}" \
 	  | sort -t '=' -n -k2 \
 	)
 	__EOT__
