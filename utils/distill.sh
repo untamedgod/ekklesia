@@ -22,13 +22,17 @@ echo
 
 for i in $(echo "${accum}" | tr ' ' '\n'); do
   echo "${i}"
-  #continue
-  cat ./Dads_Sermons_Alphabetical_Rev3.html \
-    | grep 'href="Dads_Sermons' | sed 's@.*<A href="@@' \
-    | sort \
-    | grep "${i}" \
-    | sort -t '=' -n -k2
-
+  while read line; do
+    echo "${line}"
+  done <<-__EOT__
+	$( \
+	  cat ./Dads_Sermons_Alphabetical_Rev3.html \
+	  | grep 'href="Dads_Sermons' | sed 's@.*<A href="@@' \
+	  | sort \
+	  | grep "${i}" \
+	  | sort -t '=' -n -k2 \
+	)
+	__EOT__
   echo
 done
 
