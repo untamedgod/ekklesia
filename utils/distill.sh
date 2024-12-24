@@ -1,5 +1,14 @@
 #!/bin/bash
 
+_extract_sermon() {
+
+  local readonly pdf_file="$1"
+  local readonly sermon_pages="$2"
+  local readonly sermon_title="$3"
+
+  echo "${pdf_file} pg ${sermon_pages}"
+}
+
 accum=''
 
 while read line; do
@@ -50,7 +59,8 @@ for i in $(echo "${accum}" | tr ' ' '\n'); do
       compl_set="${compl_set}${compl_set:+ }${j}"
     else
       echo
-      echo -n "extract_image() ${i}.pdf pg ${j}"
+      #echo -n "extract_image() ${i}.pdf pg ${j}"
+      _extract_sermon "${i}.pdf" "${j}" "xxyyzz"
     fi
   done
   echo
